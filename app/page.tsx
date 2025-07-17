@@ -3,8 +3,10 @@ import QuizApp from "./Quiz";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-yellow-50 p-8">
-      <QuizApp />
+    <div className="h-full bg-yellow-50 p-8 flex items-center justify-center overflow-auto">
+      <div className="w-full max-w-2xl my-auto">
+        <QuizApp />
+      </div>
     </div>
   );
 }

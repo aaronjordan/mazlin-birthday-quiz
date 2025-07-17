@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,28 +11,9 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Clock, User, QrCode, Sparkles } from "lucide-react";
-import dynamic from "next/dynamic";
-
-const ReactConfetti = dynamic(() => import("react-confetti"), { ssr: false });
 
 export default function PrizePage() {
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const [isFlipped, setIsFlipped] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    if (typeof window !== "undefined") {
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, []);
 
   const handleTicketFlip = () => {
     setIsFlipped(!isFlipped);
@@ -40,24 +21,6 @@ export default function PrizePage() {
 
   return (
     <div className="h-full bg-yellow-50 p-4 md:p-8 flex items-center justify-center">
-      {windowSize.width > 0 && (
-        <ReactConfetti
-          width={windowSize.width}
-          height={windowSize.height}
-          recycle={false}
-          numberOfPieces={800}
-          gravity={0.05}
-          colors={[
-            "#c084fc",
-            "#a855f7",
-            "#7e22ce",
-            "#fef08a",
-            "#fde047",
-            "#facc15",
-          ]}
-        />
-      )}
-
       <div className="max-w-lg w-full">
         <div className="text-center mb-4">
           <h1 className="text-2xl md:text-4xl font-bold text-purple-600 mb-1 flex items-center justify-center gap-2">
@@ -66,8 +29,7 @@ export default function PrizePage() {
             <Sparkles className="h-6 w-6 md:h-8 md:w-8" />
           </h1>
           <p className="text-sm md:text-lg text-gray-600">
-            You've won a VIP event ticket! Click the ticket to reveal the QR
-            code.
+            You've won an event ticket!
           </p>
         </div>
 
@@ -82,7 +44,7 @@ export default function PrizePage() {
           >
             {/* Front of ticket */}
             <div className="ticket-front absolute inset-0 backface-hidden">
-              <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-t-lg">
+              <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-t-lg py-4">
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle className="text-2xl font-bold">

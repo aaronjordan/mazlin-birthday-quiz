@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useConfetti } from "./components/ConfettiProvider";
 import {
   Card,
   CardContent,
@@ -15,47 +16,44 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Trophy, ArrowRight, RotateCcw, Gift } from "lucide-react";
-import dynamic from "next/dynamic";
-
-// Dynamically import the confetti component to avoid SSR issues
-const ReactConfetti = dynamic(() => import("react-confetti"), { ssr: false });
 
 // Quiz questions data
 const quizQuestions = [
   {
     id: 1,
-    question: "What is the capital of France?",
-    options: ["London", "Berlin", "Paris", "Madrid"],
-    correctAnswer: "Paris",
+    question:
+      "Which element in the Japanese Godai tradition is representative of energy, drive, and passion?",
+    options: ["Chi (Earth)", "Sui (Water)", "Ka (Fire)", "Fu (Wind)"],
+    correctAnswer: "Ka (Fire)",
   },
   {
     id: 2,
-    question: "Which planet is known as the Red Planet?",
-    options: ["Earth", "Mars", "Jupiter", "Venus"],
-    correctAnswer: "Mars",
+    question: "Born in Seattle, Washington, which musical artist pioneered the use of the guitar as an electronic sound source?",
+    options: ["Kurt Cobain", "Jimi Hendrix", "Eddie Vedder", "Layne Staley"],
+    correctAnswer: "Jimi Hendrix",
   },
   {
     id: 3,
-    question: "What is 2 + 2?",
-    options: ["3", "4", "5", "22"],
-    correctAnswer: "4",
+    question: "Which of these actresses is not from Canada?",
+    options: ["Rachel McAdams", "Emma Stone", "Evangeline Lilly", "Sandra Oh"],
+    correctAnswer: "Emma Stone",
   },
   {
     id: 4,
-    question: "Who painted the Mona Lisa?",
+    question: "What's the full name of the wizard in Stardew Valley?",
     options: [
-      "Vincent van Gogh",
-      "Pablo Picasso",
-      "Leonardo da Vinci",
-      "Michelangelo",
+      "Magnus Rasmodius",
+      "Cornelius Abernathy", 
+      "Thaddeus Grimwald",
+      "Bartholomew Spellweaver",
     ],
-    correctAnswer: "Leonardo da Vinci",
+    correctAnswer: "Magnus Rasmodius",
   },
   {
     id: 5,
-    question: "Which element has the chemical symbol 'O'?",
-    options: ["Gold", "Oxygen", "Osmium", "Oganesson"],
-    correctAnswer: "Oxygen",
+    question: "In the Fallout TV show, which intrepid adventurer leaves Vault 33 in search of her father?",
+    options: ["Lucy", "Betty", "Stephanie", "Norm"],
+    correctAnswer: "Lucy",
   },
 ];
 
@@ -64,32 +62,23 @@ type QuizState = "start" | "question" | "result";
 
 export default function QuizApp() {
   const router = useRouter();
+  const { triggerConfetti } = useConfetti();
   const [quizState, setQuizState] = useState<QuizState>("start");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [score, setScore] = useState(0);
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-
-  // Update window size for confetti
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    if (typeof window !== "undefined") {
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, []);
 
   const currentQuestion = quizQuestions[currentQuestionIndex];
   const isPerfectScore = score === quizQuestions.length;
   const progress = (currentQuestionIndex / quizQuestions.length) * 100;
+
+  // Trigger confetti when perfect score is achieved
+  useEffect(() => {
+    if (quizState === "result" && isPerfectScore) {
+      triggerConfetti();
+    }
+  }, [quizState, isPerfectScore, triggerConfetti]);
 
   const handleStartQuiz = () => {
     setQuizState("question");
@@ -129,7 +118,7 @@ export default function QuizApp() {
   };
 
   return (
-    <Card className="w-full shadow-lg border-purple-300 bg-white">
+    <Card className="w-full shadow-lg border-purple-300 bg-white min-h-[500px] flex flex-col">
       {quizState === "start" && (
         <>
           <CardHeader className="text-center">
@@ -140,18 +129,20 @@ export default function QuizApp() {
               Test your knowledge with this 5-question quiz
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col items-center">
+          <CardContent className="flex flex-col items-center flex-grow">
             <p className="mb-6 text-center">
               Answer all questions correctly to see a special celebration!
             </p>
+          </CardContent>
+          <CardFooter className="mt-auto">
             <Button
-              className="bg-purple-600 hover:bg-purple-700 text-white"
+              className="bg-purple-600 hover:bg-purple-700 text-white w-full"
               onClick={handleStartQuiz}
               size="lg"
             >
               Start Quiz
             </Button>
-          </CardContent>
+          </CardFooter>
         </>
       )}
 
@@ -167,7 +158,7 @@ export default function QuizApp() {
             <Progress value={progress} className="h-2 bg-purple-100" />
             <CardTitle className="mt-4">{currentQuestion.question}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-grow">
             <RadioGroup
               value={selectedAnswer}
               onValueChange={handleAnswerSelect}
@@ -190,9 +181,9 @@ export default function QuizApp() {
               ))}
             </RadioGroup>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="mt-auto">
             <Button
-              className="bg-purple-600 hover:bg-purple-700 text-white"
+              className="bg-purple-600 hover:bg-purple-700 text-white w-full"
               onClick={handleNextQuestion}
               disabled={!selectedAnswer}
             >
@@ -215,30 +206,13 @@ export default function QuizApp() {
               You scored {score} out of {quizQuestions.length}
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col items-center">
+          <CardContent className="flex flex-col items-center flex-grow">
             {isPerfectScore ? (
               <div className="flex flex-col items-center">
                 <Trophy className="h-24 w-24 text-purple-500 mb-4" />
                 <p className="text-center text-lg font-medium mb-6">
                   Congratulations! You've won a prize!
                 </p>
-                {windowSize.width > 0 && (
-                  <ReactConfetti
-                    width={windowSize.width}
-                    height={windowSize.height}
-                    recycle={false}
-                    numberOfPieces={1500}
-                    gravity={0.1}
-                    colors={[
-                      "#c084fc",
-                      "#a855f7",
-                      "#7e22ce",
-                      "#fef08a",
-                      "#fde047",
-                      "#facc15",
-                    ]}
-                  />
-                )}
               </div>
             ) : (
               <div className="w-full space-y-4 mb-6">
@@ -267,10 +241,10 @@ export default function QuizApp() {
               </div>
             )}
           </CardContent>
-          <CardFooter>
+          <CardFooter className="mt-auto">
             {!isPerfectScore ? (
               <Button
-                className="bg-purple-600 hover:bg-purple-700 text-white"
+                className="bg-purple-600 hover:bg-purple-700 text-white w-full"
                 onClick={handleRestartQuiz}
               >
                 <RotateCcw className="mr-2 h-4 w-4" />
@@ -278,8 +252,8 @@ export default function QuizApp() {
               </Button>
             ) : (
               <Button
-                className="bg-purple-600 hover:bg-purple-700 text-white"
-                onClick={() => router.push('/prize')}
+                className="bg-purple-600 hover:bg-purple-700 text-white w-full"
+                onClick={() => router.push("/prize")}
               >
                 <Gift className="mr-2 h-4 w-4" />
                 Reveal Prize

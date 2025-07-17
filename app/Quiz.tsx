@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -62,6 +63,7 @@ const quizQuestions = [
 type QuizState = "start" | "question" | "result";
 
 export default function QuizApp() {
+  const router = useRouter();
   const [quizState, setQuizState] = useState<QuizState>("start");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -277,7 +279,7 @@ export default function QuizApp() {
             ) : (
               <Button
                 className="bg-purple-600 hover:bg-purple-700 text-white"
-                onClick={handleRestartQuiz}
+                onClick={() => router.push('/prize')}
               >
                 <Gift className="mr-2 h-4 w-4" />
                 Reveal Prize

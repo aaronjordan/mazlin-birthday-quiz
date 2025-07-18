@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,7 +21,7 @@ export default function PrizePage() {
   };
 
   return (
-    <div className="h-full bg-yellow-50 p-4 md:p-8 flex items-center justify-center">
+    <div className="h-full bg-yellow-50 p-4 md:p-8 flex items-start justify-center pt-16">
       <div className="max-w-lg w-full">
         <div className="text-center mb-4">
           <h1 className="text-2xl md:text-4xl font-bold text-purple-600 mb-1 flex items-center justify-center gap-2">
@@ -33,8 +34,16 @@ export default function PrizePage() {
           </p>
         </div>
 
-        <div
+        <motion.div
           className="ticket-container perspective-1000 cursor-pointer"
+          initial={{ y: 200, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 100, 
+            damping: 20,
+            delay: 0.2
+          }}
           onClick={handleTicketFlip}
         >
           <Card
@@ -117,7 +126,7 @@ export default function PrizePage() {
               </CardContent>
             </div>
           </Card>
-        </div>
+        </motion.div>
       </div>
 
       <style jsx global>{`

@@ -44,22 +44,39 @@ export default function PrizePage() {
           >
             {/* Front of ticket */}
             <div className="ticket-front absolute inset-0 backface-hidden">
+              <CardHeader className="bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-t-lg py-2">
+                <CardTitle className="text-center text-xl">
+                  Happy Birthday, Mazlin!
+                </CardTitle>
+              </CardHeader>
+
+              <CardContent className="p-6 flex flex-col items-center justify-center flex-grow">
+                <img
+                  src="https://media.giphy.com/media/l41lN3o4fk4ZgrSDK/giphy.gif"
+                  alt="Prize animation"
+                  style={{
+                    width: "100%",
+                    aspectRatio: "1/1",
+                    objectFit: "cover",
+                  }}
+                  className="rounded"
+                />
+              </CardContent>
+            </div>
+
+            {/* Back of ticket */}
+            <div className="ticket-back absolute inset-0 backface-hidden">
               <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-t-lg py-4">
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-2xl font-bold">
-                      EXCLUSIVE EVENT
+                    <CardTitle className="text-3xl font-bold">
+                      LUCY DARLING 🔥🎩
                     </CardTitle>
-                    <CardDescription className="text-purple-100">
-                      VIP Access Pass
+                    <CardDescription className="text-purple-100 font-mono text-sm">
+                      1BAL Section A<br />
+                      Row C, Seats 6-7
                     </CardDescription>
                   </div>
-                  <Badge
-                    variant="secondary"
-                    className="bg-white text-purple-600 font-semibold"
-                  >
-                    VIP
-                  </Badge>
                 </div>
               </CardHeader>
 
@@ -68,7 +85,7 @@ export default function PrizePage() {
                   <Calendar className="h-5 w-5 text-purple-500" />
                   <div>
                     <p className="font-semibold">Date</p>
-                    <p className="text-gray-600">Saturday, August 15, 2025</p>
+                    <p className="text-gray-600">Friday, July 25th, 2025</p>
                   </div>
                 </div>
 
@@ -76,7 +93,7 @@ export default function PrizePage() {
                   <Clock className="h-5 w-5 text-purple-500" />
                   <div>
                     <p className="font-semibold">Time</p>
-                    <p className="text-gray-600">7:00 PM - 11:00 PM</p>
+                    <p className="text-gray-600">7:30 PM (Doors 7:00 PM)</p>
                   </div>
                 </div>
 
@@ -85,7 +102,7 @@ export default function PrizePage() {
                   <div>
                     <p className="font-semibold">Venue</p>
                     <p className="text-gray-600">
-                      Grand Ballroom, Downtown Center
+                      Keller Auditorium, Portland, OR
                     </p>
                   </div>
                 </div>
@@ -94,45 +111,8 @@ export default function PrizePage() {
                   <User className="h-5 w-5 text-purple-500" />
                   <div>
                     <p className="font-semibold">Guest</p>
-                    <p className="text-gray-600">Quiz Champion</p>
+                    <p className="text-gray-600">Aaron Jordan 🙂</p>
                   </div>
-                </div>
-
-                <div className="border-t pt-4 mt-6">
-                  <p className="text-sm text-gray-500 text-center">
-                    Click to reveal QR code for entry
-                  </p>
-                </div>
-              </CardContent>
-            </div>
-
-            {/* Back of ticket */}
-            <div className="ticket-back absolute inset-0 backface-hidden">
-              <CardHeader className="bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-t-lg">
-                <CardTitle className="text-center text-xl">
-                  Entry QR Code
-                </CardTitle>
-              </CardHeader>
-
-              <CardContent className="p-6 flex flex-col items-center space-y-4">
-                <div className="bg-white p-4 rounded-lg border-2 border-purple-200">
-                  <QrCode className="h-32 w-32 text-purple-600" />
-                </div>
-
-                <div className="text-center space-y-2">
-                  <p className="font-semibold">Ticket ID: VIP-2025-001</p>
-                  <p className="text-sm text-gray-600">
-                    Present this QR code at the venue entrance
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Valid for one person only • Non-transferable
-                  </p>
-                </div>
-
-                <div className="border-t pt-4 mt-6 w-full">
-                  <p className="text-sm text-gray-500 text-center">
-                    Click to flip back
-                  </p>
                 </div>
               </CardContent>
             </div>

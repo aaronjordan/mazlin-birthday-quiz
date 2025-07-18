@@ -28,7 +28,8 @@ const quizQuestions = [
   },
   {
     id: 2,
-    question: "Born in Seattle, Washington, which musical artist pioneered the use of the guitar as an electronic sound source?",
+    question:
+      "Born in Seattle, Washington, which musical artist pioneered the use of the guitar as an electronic sound source?",
     options: ["Kurt Cobain", "Jimi Hendrix", "Eddie Vedder", "Layne Staley"],
     correctAnswer: "Jimi Hendrix",
   },
@@ -43,7 +44,7 @@ const quizQuestions = [
     question: "What's the full name of the wizard in Stardew Valley?",
     options: [
       "Magnus Rasmodius",
-      "Cornelius Abernathy", 
+      "Cornelius Abernathy",
       "Thaddeus Grimwald",
       "Bartholomew Spellweaver",
     ],
@@ -51,7 +52,8 @@ const quizQuestions = [
   },
   {
     id: 5,
-    question: "In the Fallout TV show, which intrepid adventurer leaves Vault 33 in search of her father?",
+    question:
+      "In the Fallout TV show, which intrepid adventurer leaves Vault 33 in search of her father?",
     options: ["Lucy", "Betty", "Stephanie", "Norm"],
     correctAnswer: "Lucy",
   },
@@ -121,17 +123,19 @@ export default function QuizApp() {
     <Card className="w-full shadow-lg border-purple-300 bg-white min-h-[500px] flex flex-col">
       {quizState === "start" && (
         <>
-          <CardHeader className="text-center">
+          <CardHeader className="text-center mb-8">
             <CardTitle className="text-3xl text-purple-600">
               Quiz Time!
             </CardTitle>
-            <CardDescription>
-              Test your knowledge with this 5-question quiz
-            </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center flex-grow">
-            <p className="mb-6 text-center">
-              Answer all questions correctly to see a special celebration!
+            <img
+              src="https://media.giphy.com/media/EZ8u1MFn2r1o921oiZ/giphy.gif"
+              alt="Quiz animation"
+              className="w-48 h-48 rounded-lg mb-4"
+            />
+            <p className="mb-4 text-center">
+              Answer all questions correctly to win a unique prize... 🧐
             </p>
           </CardContent>
           <CardFooter className="mt-auto">
@@ -216,9 +220,6 @@ export default function QuizApp() {
               </div>
             ) : (
               <div className="w-full space-y-4 mb-6">
-                <p className="text-center mb-4">
-                  Here are the correct answers:
-                </p>
                 {quizQuestions.map((q, index) => (
                   <div key={q.id} className="border rounded-md p-3">
                     <p className="font-medium">{q.question}</p>
